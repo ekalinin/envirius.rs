@@ -1,0 +1,9 @@
+.*.swp
+doc
+build
+target
+*.csv
+*.tsv
+builds
+.idea
+*.iml
