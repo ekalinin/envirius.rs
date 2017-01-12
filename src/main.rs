@@ -1,9 +1,10 @@
 use std::env;
 
 mod common;
+mod cmd;
+
 
 /*
-mod cmd;
 mod plugins;
 */
 
@@ -17,8 +18,10 @@ fn main() {
         },
     };
 
-    // setup envs root
+    // setup root
     let nv = common::EnvHome::new(nv_home);
-    let envs = nv.list_environments();
-    println!("Vector: {:?}", envs);
+
+    // cli args
+    let args: Vec<_> = env::args().collect();
+    cmd::run(args[1].as_ref(), &nv, &args[2..]);
 }
