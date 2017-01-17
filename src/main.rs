@@ -19,7 +19,7 @@ fn main() {
     };
 
     // setup root
-    let nv = common::EnvHome::new(nv_home);
+    let nv = common::Nv::new(nv_home);
 
     // cli args
     let args: Vec<_> = env::args().collect();
