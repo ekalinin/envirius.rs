@@ -5,22 +5,25 @@ use common::{Nv};
 
 
 pub mod ls;
+pub mod ls_commands;
 
 
 pub fn run(cmd: &str, nv: &Nv, args: &ArgMatches) -> () {
     match cmd {
         "ls" => ls::run(nv, args),
+        "ls-commands" => ls_commands::run(nv, args),
         _ => panic!("Wrong command!"),
     }
 }
 
 pub fn get_commands<'a>() -> Vec<&'a str> {
-    vec!["ls"]
+    vec!["ls", "ls-commands"]
 }
 
 pub fn get_command(cmd: &str) -> App {
     match cmd {
         "ls" => ls::get_command(),
+        "ls-commands" => ls_commands::get_command(),
         _ => panic!("Wrong command!"),
     }
 }
