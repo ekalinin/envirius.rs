@@ -35,10 +35,10 @@ fn main() {
         app = app.subcommand(cmd::get_command(c))
     }
 
-    let gm = app.get_matches();
-    if let Some(cmd) = gm.subcommand_name() {
-        if let Some(ref m) = gm.subcommand_matches(cmd) {
-            cmd::run(cmd, &nv, &m);
+    let matches = app.get_matches();
+    if let Some(cmd_name) = matches.subcommand_name() {
+        if let Some(ref cmd_args) = matches.subcommand_matches(cmd_name) {
+            cmd::run(cmd_name, &nv, &cmd_args);
         }
     }
 }
