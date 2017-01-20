@@ -5,10 +5,7 @@ use clap::{App, Arg, SubCommand, ArgMatches};
 
 
 pub fn run(e: &Nv, args: &ArgMatches) -> () {
-    let mut show_meta = true;
-    if args.is_present("no-meta") {
-        show_meta = false;
-    }
+    let show_meta = !args.is_present("no-meta");
     e.print_environments(show_meta);
 }
 
