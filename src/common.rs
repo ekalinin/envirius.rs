@@ -5,12 +5,21 @@ use std::fmt;
 use std::fs::File;
 use std::io::Read;
 
-/*
-struct Lang {
+#[derive(Debug)]
+pub struct Lang {
     name: String,
     version: String
 }
-*/
+
+impl Lang {
+    pub fn from(s: &str) -> Lang {
+        let v: Vec<&str> = s.split("=").collect();
+        Lang{
+            name: String::from(v[0]),
+            version: String::from(v[1])
+        }
+    }
+}
 
 
 // Environment
