@@ -1,27 +1,25 @@
 use common::{Nv};
 
-static DESC: &'static str = "List environments";
+extern crate clap;
+use clap::{App, Arg, SubCommand, ArgMatches};
 
-static HELP: &'static str = "
-Options:
-  --no-meta    Do not show meta information of the environment
-";
 
-pub fn run(e: &Nv, argv: &[String]) -> () {
+pub fn run(e: &Nv, args: &ArgMatches) -> () {
     let mut show_meta = true;
-    if argv.len() > 0 {
-        if argv[0] == "--help" {
-            usage();
-            return;
-        }
-        if argv[0] == "--no-meta" {
-            show_meta = false;
-        }
+    println!("{}", args.is_present("no-meta"));
+    if args.is_present("no-meta") {
+        show_meta = false;
     }
     e.print_environments(show_meta);
 }
 
-pub fn usage() {
-    println!("{}", DESC);
-    println!("{}", HELP);
+pub fn get_command<'a>() -> App<'a, 'a> {
+    SubCommand::with_name("ls")
+        .about("List environments")
+        .arg(
+            Arg::with_name("no-meta")
+                .long("no-meta")
+                .help("Do not show environment's meta information")
+        )
 }
+

@@ -2,12 +2,10 @@
 extern crate clap;
 
 use std::env;
-use clap::{App, Arg, SubCommand, AppSettings};
+use clap::{App, AppSettings};
 
 mod common;
 mod cmd;
-
-
 
 /*
 mod plugins;
@@ -27,24 +25,20 @@ fn main() {
     let nv = common::Nv::new(nv_home);
 
     // cli args
-    let app = App::new("enviriusx")
+    let mut app = App::new("enviriusx")
         .setting(AppSettings::SubcommandRequired)
         .about("Universal Virtual Environment Manager")
         .version(crate_version!())
         .version_short("v");
 
-    let m = app.subcommand(
-            SubCommand::with_name("ls")
-                .about("List environments")
-                .arg(
-                    Arg::with_name("no-meta")
-                ))
-        .get_matches();
+    for c in cmd::get_commands() {
+        app = app.subcommand(cmd::get_command(c))
+    }
 
-    let args: Vec<_> = env::args().collect();
-    // cmd::run(args[1].as_ref(), &nv, &args[2..]);
-    match m.subcommand_name() {
-        Some(cmd)   => cmd::run(cmd, &nv, &args[2..]),
-        None        => println!("Wrong command"),
+    let gm = app.get_matches();
+    if let Some(cmd) = gm.subcommand_name() {
+        if let Some(ref m) = gm.subcommand_matches(cmd) {
+            cmd::run(cmd, &nv, &m);
+        }
     }
 }

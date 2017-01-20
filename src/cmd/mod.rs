@@ -1,14 +1,26 @@
-pub mod ls;
+extern crate clap;
 
+use clap::{App, ArgMatches};
 use common::{Nv};
 
-pub fn run(cmd: &str, nv: &Nv, args: &[String]) -> () {
+
+pub mod ls;
+
+
+pub fn run(cmd: &str, nv: &Nv, args: &ArgMatches) -> () {
     match cmd {
-        "ls" => ls::run(&nv, &args),
-        _ => print_help(),
+        "ls" => ls::run(nv, args),
+        _ => panic!("Wrong command!"),
     }
 }
 
-fn print_help() -> () {
-    println!("Help page will be here ... ")
+pub fn get_commands<'a>() -> Vec<&'a str> {
+    vec!["ls"]
+}
+
+pub fn get_command(cmd: &str) -> App {
+    match cmd {
+        "ls" => ls::get_command(),
+        _ => panic!("Wrong command!"),
+    }
 }
