@@ -5,6 +5,8 @@ use std::fmt;
 use std::fs::File;
 use std::io::Read;
 
+//use plugins::{Installer};
+
 #[derive(Debug)]
 pub struct Lang {
     name: String,
@@ -12,12 +14,15 @@ pub struct Lang {
 }
 
 impl Lang {
-    pub fn from(s: &str) -> Lang {
+    pub fn from(s: &str) -> Option<Lang> {
         let v: Vec<&str> = s.split("=").collect();
-        Lang{
+        if v.len() != 2 {
+            return None
+        }
+        Some(Lang{
             name: String::from(v[0]),
             version: String::from(v[1])
-        }
+        })
     }
 }
 
@@ -104,5 +109,22 @@ impl Nv {
         }
 
         false
+    }
+
+    pub fn remove_env(&self, _: &str) -> bool {
+        false
+    }
+
+    pub fn create_env(&self, env_name: &str, langs: Vec<Option<Lang>>) -> bool {
+//        let root = path::Path::new(&self.root);
+//        let _ = fs::create_dir_all(root.join(env_name));
+
+        for l in langs {
+            if let Some(Lang{name: n, version: v}) = l {
+                println!("Installing {}=={} ...", n, v);
+            }
+        }
+
+        true
     }
 }
