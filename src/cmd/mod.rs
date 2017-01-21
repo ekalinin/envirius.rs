@@ -8,8 +8,9 @@ pub mod mk;
 pub mod ls;
 pub mod ls_commands;
 
+type CmdResult = Result<(), i32>;
 
-pub fn run(cmd: &str, nv: &Nv, args: &ArgMatches) -> () {
+pub fn run(cmd: &str, nv: &Nv, args: &ArgMatches) -> CmdResult {
     match cmd {
         "ls" => ls::run(nv, args),
         "ls-commands" => ls_commands::run(nv, args),

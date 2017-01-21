@@ -4,7 +4,7 @@ extern crate clap;
 use clap::{App, Arg, SubCommand, ArgMatches};
 
 
-pub fn run(e: &Nv, args: &ArgMatches) -> () {
+pub fn run(e: &Nv, args: &ArgMatches) -> super::CmdResult {
     println!("Create environment ...");
     println!("  On:     {}", args.is_present("on"));
     println!("  Force:  {}", args.is_present("force"));
@@ -13,6 +13,20 @@ pub fn run(e: &Nv, args: &ArgMatches) -> () {
     for p in args.values_of("plugins").unwrap().collect::<Vec<_>>() {
         println!(" * {:?}", Lang::from(p));
     }
+
+    let env_name = args.value_of("name").expect("environment's name is null");
+    if e.is_exists(env_name) {
+//        if args.is_present("force") {
+//            e.remove(env_name);
+//        } else {
+            println!("Environment with name '{}' is already exists.", env_name);
+            println!("Please, choose another name and try again.");
+            println!("Or use --force option.");
+            return Err(1);
+//        }
+    }
+
+    Ok(())
 }
 
 pub fn get_command<'a>() -> App<'a, 'a> {

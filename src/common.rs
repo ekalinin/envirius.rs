@@ -95,4 +95,14 @@ impl Nv {
             };
         };
     }
+
+    pub fn is_exists(&self, env_name: &str) -> bool {
+        for e in self.get_environments() {
+            if e.name == env_name {
+                return true;
+            }
+        }
+
+        false
+    }
 }

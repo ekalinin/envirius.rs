@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate clap;
 
+use std::process;
 use std::env;
 use clap::{App, AppSettings};
 
@@ -38,7 +39,11 @@ fn main() {
     let matches = app.get_matches();
     if let Some(cmd_name) = matches.subcommand_name() {
         if let Some(ref cmd_args) = matches.subcommand_matches(cmd_name) {
-            cmd::run(cmd_name, &nv, &cmd_args);
+            let status = match cmd::run(cmd_name, &nv, &cmd_args) {
+                Ok(_) => 0,
+                Err(code) => code,
+            };
+            process::exit(status);
         }
     }
 }
