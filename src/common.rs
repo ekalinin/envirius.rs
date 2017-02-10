@@ -116,6 +116,7 @@ impl Nv {
     }
 
     pub fn create_env(&self, env_name: &str, langs: Vec<Option<Lang>>) -> bool {
+        println!("Create environment ...");
 //        let root = path::Path::new(&self.root);
 //        let _ = fs::create_dir_all(root.join(env_name));
 
