@@ -6,5 +6,6 @@ target
 *.tsv
 builds
 .idea
+.vscode
 *.iml
 TODO.md
