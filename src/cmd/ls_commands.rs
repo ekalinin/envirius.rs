@@ -6,7 +6,7 @@ use clap::{App, SubCommand, ArgMatches};
 
 pub fn run(_: &Nv, _: &ArgMatches) -> super::CmdResult {
     for c in super::get_commands() {
-        println!("{}", c);
+        println!("{}", super::Command2str(c));
     }
     Ok(())
 }
