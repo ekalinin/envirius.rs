@@ -5,23 +5,36 @@ use std::fmt;
 use std::fs::File;
 use std::io::Read;
 
-//use plugins::{Installer};
+// use plugins::{Installer};
 
-#[derive(Debug)]
+/// `Lang` struct describes pairs like lang-name == lang-version
+#[derive(PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub struct Lang {
-    name: String,
-    version: String
+    /// Lang name
+    pub name: String,
+    /// Lang version
+    pub version: String,
 }
 
 impl Lang {
+    /// Returns a Lang instance from a string like rust=1.13.0
+    ///
+    /// ```
+    /// let expect = Some(envirius::common::Lang{
+    ///                     name: "node".to_string(),
+    ///                     version: "1.2.3".to_string(),
+    /// });
+    /// let result = envirius::common::Lang::from("node=1.2.3");
+    /// assert_eq!(expect, result);
+    /// ```
     pub fn from(s: &str) -> Option<Lang> {
         let v: Vec<&str> = s.split("=").collect();
         if v.len() != 2 {
-            return None
+            return None;
         }
-        Some(Lang{
+        Some(Lang {
             name: String::from(v[0]),
-            version: String::from(v[1])
+            version: String::from(v[1]),
         })
     }
 }
@@ -31,14 +44,14 @@ impl Lang {
 #[derive(PartialEq, Eq, PartialOrd, Ord)]
 pub struct Environment {
     name: String,
-    meta: String
+    meta: String,
 }
 
 impl Environment {
     pub fn new(name: String, meta: String) -> Environment {
         Environment {
             name: name,
-            meta: meta
+            meta: meta,
         }
     }
 }
@@ -62,19 +75,21 @@ impl fmt::Debug for Environment {
 
 // Nv
 pub struct Nv {
-    root: String
+    root: String,
 }
 
 impl Nv {
     pub fn new(root: String) -> Nv {
         let _ = fs::create_dir_all(path::Path::new(&root));
-        Nv{root: root}
+        Nv { root: root }
     }
 
     pub fn get_environments(&self) -> Vec<Environment> {
         let mut envs = path::Path::new(&self.root)
             .join("envs")
-            .read_dir().unwrap().map(|e| {
+            .read_dir()
+            .unwrap()
+            .map(|e| {
                 let dir = e.unwrap().path();
                 let meta_file_path = dir.join("envirius.info");
                 let mut meta_info = String::new();
@@ -85,7 +100,8 @@ impl Nv {
                 }
                 let dir_name = dir.file_name().unwrap().to_str().unwrap();
                 Environment::new(String::from(dir_name), meta_info)
-            }).collect::<Vec<_>>();
+            })
+            .collect::<Vec<_>>();
         envs.sort();
         envs
     }
@@ -98,7 +114,7 @@ impl Nv {
             } else {
                 println!("{}", *e);
             };
-        };
+        }
     }
 
     pub fn is_exists(&self, env_name: &str) -> bool {
@@ -117,11 +133,11 @@ impl Nv {
 
     pub fn create_env(&self, env_name: &str, langs: Vec<Option<Lang>>) -> bool {
         println!("Create environment ...");
-//        let root = path::Path::new(&self.root);
-//        let _ = fs::create_dir_all(root.join(env_name));
+        //        let root = path::Path::new(&self.root);
+        //        let _ = fs::create_dir_all(root.join(env_name));
 
         for l in langs {
-            if let Some(Lang{name: n, version: v}) = l {
+            if let Some(Lang { name: n, version: v }) = l {
                 println!("Installing {}=={} ...", n, v);
             }
         }

@@ -2,7 +2,7 @@
 #[macro_use]
 extern crate clap;
 
-mod common;
+pub mod common;
 pub mod cmd;
 
 pub use common::Nv;
