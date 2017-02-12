@@ -6,3 +6,6 @@ release:
 
 test:
 	cargo test
+
+doc:
+	cargo doc --no-deps

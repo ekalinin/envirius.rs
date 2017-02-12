@@ -7,7 +7,7 @@ use std::io::Read;
 
 // use plugins::{Installer};
 
-/// `Lang` struct describes pairs like lang-name == lang-version
+/// A wrapper for a pair like (name, version) for any programming language
 #[derive(PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub struct Lang<'a> {
     /// Lang name
@@ -40,14 +40,17 @@ impl<'a> Lang<'a> {
 }
 
 
-// Environment
+/// A wrapper for a certain virtual environment
 #[derive(PartialEq, Eq, PartialOrd, Ord)]
 pub struct Environment {
+    /// environment's name
     name: String,
+    /// environment's meta information
     meta: String,
 }
 
 impl Environment {
+    /// Creates a new environment
     pub fn new(name: String, meta: String) -> Environment {
         Environment {
             name: name,
@@ -73,12 +76,14 @@ impl fmt::Debug for Environment {
 }
 
 
-// Nv
+/// A wrapper for all environments and other envirius's enternal stuff
 pub struct Nv {
+    /// Root directory
     root: String,
 }
 
 impl Nv {
+    /// Creates a new Nv instance + check all paths
     pub fn new(root: String) -> Nv {
         let _ = fs::create_dir_all(path::Path::new(&root));
         Nv { root: root }
@@ -106,6 +111,7 @@ impl Nv {
         envs
     }
 
+    /// Prints all environments's name into STDIN
     pub fn print_environments(&self, show_meta: bool) -> () {
         let environments = self.get_environments();
         for e in &environments {
@@ -117,6 +123,7 @@ impl Nv {
         }
     }
 
+    /// Check is environment exists with such name
     pub fn is_exists(&self, env_name: &str) -> bool {
         for e in self.get_environments() {
             if e.name == env_name {
@@ -127,10 +134,12 @@ impl Nv {
         false
     }
 
+    /// Removes environment with such name
     pub fn remove_env(&self, _: &str) -> bool {
         false
     }
 
+    /// Creates a new environment
     pub fn create_env(&self, env_name: &str, langs: Vec<Option<Lang>>) -> bool {
         println!("Create environment ...");
         //        let root = path::Path::new(&self.root);
