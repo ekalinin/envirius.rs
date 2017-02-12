@@ -9,20 +9,20 @@ use std::io::Read;
 
 /// `Lang` struct describes pairs like lang-name == lang-version
 #[derive(PartialEq, Eq, PartialOrd, Ord, Debug)]
-pub struct Lang {
+pub struct Lang<'a> {
     /// Lang name
-    pub name: String,
+    pub name: &'a str,
     /// Lang version
-    pub version: String,
+    pub version: &'a str,
 }
 
-impl Lang {
+impl<'a> Lang<'a> {
     /// Returns a Lang instance from a string like rust=1.13.0
     ///
     /// ```
     /// let expect = Some(envirius::common::Lang{
-    ///                     name: "node".to_string(),
-    ///                     version: "1.2.3".to_string(),
+    ///                     name: "node",
+    ///                     version: "1.2.3",
     /// });
     /// let result = envirius::common::Lang::from("node=1.2.3");
     /// assert_eq!(expect, result);
@@ -33,8 +33,8 @@ impl Lang {
             return None;
         }
         Some(Lang {
-            name: String::from(v[0]),
-            version: String::from(v[1]),
+            name: v[0],
+            version: v[1],
         })
     }
 }
