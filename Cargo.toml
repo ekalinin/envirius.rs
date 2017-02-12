@@ -1,7 +1,15 @@
 [package]
-name = "enviriusx"
+name = "envirius"
 version = "0.1.0"
 authors = ["Eugene Kalinin <e.v.kalinin@gmail.com>"]
 
 [dependencies]
 clap = "2.20.0"
+
+[lib]
+name="envirius"
+path="src/lib.rs"
+
+[[bin]]
+name = "nvx"
+path = "src/main.rs"
