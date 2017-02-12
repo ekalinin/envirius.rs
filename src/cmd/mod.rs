@@ -16,7 +16,7 @@ pub enum Command {
     Mk,
 }
 
-fn cmd2Command(cmd: &str) -> Command {
+fn from_str(cmd: &str) -> Command {
     match cmd {
         "ls" => Command::Ls,
         "ls-commands" => Command::LsCommands,
@@ -25,7 +25,7 @@ fn cmd2Command(cmd: &str) -> Command {
     }
 }
 
-pub fn Command2str<'a>(cmd: Command) -> &'a str {
+pub fn to_str<'a>(cmd: Command) -> &'a str {
     match cmd {
         Command::Ls => "ls",
         Command::LsCommands => "ls-commands",
@@ -34,7 +34,7 @@ pub fn Command2str<'a>(cmd: Command) -> &'a str {
 }
 
 pub fn run(cmd: &str, nv: &Nv, args: &ArgMatches) -> CmdResult {
-    match cmd2Command(cmd) {
+    match from_str(cmd) {
         Command::Ls => ls::run(nv, args),
         Command::LsCommands => ls_commands::run(nv, args),
         Command::Mk => mk::run(nv, args),
